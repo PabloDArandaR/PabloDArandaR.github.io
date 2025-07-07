@@ -1,0 +1,24 @@
+---
+import Layout from '../../layouts/ListPage.astro';
+import fs from 'fs';
+import '../../styles/general.css';
+
+import { getCollection } from 'astro:content';
+const posts = (await getCollection('series')).sort(
+	(a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
+);
+
+---
+
+<Layout
+	title="Series"
+	description="Lorem ipsum dolor sit amet"
+	pubDate={new Date('August 08 2021')}
+  frontImage="/blog-placeholder-about.jpg"
+  posts={posts}
+  startHref='series'
+  elementWidth=1400
+  elementHeight=360
+  >
+    
+</Layout>
