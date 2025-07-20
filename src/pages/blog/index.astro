@@ -25,7 +25,7 @@ const posts = (await getCollection('blog')).sort(
 						posts.map((post) => (
 							<li>
 								<a href={`/blog/${post.slug}/`}>
-									<img width={1220} height={360} src={post.data.heroImage} alt="" />
+									<img width={1220} height={360} src={post.data.heroImage} alt="" class="center" />
 									<h4 class="title">{post.data.title}</h4>
 									<p class="date">
 										<FormattedDate date={post.data.pubDate} />
@@ -40,3 +40,16 @@ const posts = (await getCollection('blog')).sort(
 		<Footer />
 	</body>
 </html>
+
+<style>
+	a {
+		align-items: center;
+		text-align: center;
+	}
+	img {
+		display: block;
+  		margin-left: auto;
+  		margin-right: auto;
+  		width: 55%;
+	}
+</style>

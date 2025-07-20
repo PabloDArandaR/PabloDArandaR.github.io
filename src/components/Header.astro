@@ -1,20 +1,15 @@
 ---
 import HeaderLink from './HeaderLink.astro';
 import { SITE_TITLE, GITHUB_URL, TWITTER_URL } from '../consts';
-import Hamburger from './Hamburger.astro'
 ---
 
 <header>
 	<nav>
 		<h2><a href="/">{SITE_TITLE}</a></h2>
 		<div class="internal-links">
-			<HeaderLink href="/">Home</HeaderLink>
 			<HeaderLink href="/blog">Blog</HeaderLink>
 			<HeaderLink href="/portfolio">Portfolio</HeaderLink>
-			<HeaderLink href="/paper_review">Paper Review</HeaderLink>
 			<HeaderLink href="/series">Series</HeaderLink>
-			<HeaderLink href="/personal">Oneiric</HeaderLink>
-			<HeaderLink href="/about">About</HeaderLink>
 		</div>
 		<div class="social-links">
 			<a href={TWITTER_URL} target="_blank">
@@ -53,15 +48,18 @@ import Hamburger from './Hamburger.astro'
 	h2 a,
 	h2 a.active {
 		text-decoration: none;
+		background-color: #00000000;
+		font-weight: bolder;
 	}
 	nav {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		text-decoration: none;
 	}
 	nav a {
-		padding: 1em 0.5em;
-		color: white;
+		padding: 0.75em 0.5em;
+		color: black;
 		border-bottom: 4px solid transparent;
 		text-decoration: none;
 	}

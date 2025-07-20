@@ -26,7 +26,7 @@ const ProfileComponent = () => {
         <div style={styles.container}>
             <div style={styles.leftSection}>
                 <img
-                    src="https://via.placeholder.com/300" // Replace with actual image URL
+                    src="https://via.placeholder.com/1300" // Replace with actual image URL
                     alt="Profile"
                     style={styles.image}
                 />
@@ -36,10 +36,10 @@ const ProfileComponent = () => {
                     Pablo David Aranda Rodriguez
                 </div>
                 <div className="">
-                    Robotics engineer and frustrated musician
+                    <i>Robotics engineer and frustrated musician</i>
                 </div>
                 <p>
-                    I am originally from a medium size city in the middle of a desert in the north-east of Spain, which goes by the name of Saragossa. I moved to Odense, Denmark to finish my master studies in Industrial Engineering and pursue a second Masterm this time in Robotics, which I finished in Munich, where I did an exchange semester at the Hochshule Munchen and my Master's Thesis at the Technische Universitat Munchen.
+                    I am originally from a medium-sized city in the middle of a desert in the north-east of Spain, which goes by the name of Saragossa. I moved to Odense, Denmark to finish my master studies in Industrial Engineering and pursue a second Masterm this time in Robotics, which I finished in Munich, where I did an exchange semester at the Hochshule Munchen and my Master's Thesis at the Technische Universitat Munchen.
                 </p>
                 <p>
                     Here in Munich is where I got to find the spot in the world where I managed to find happiness, my girlfriend with whom I've been living for more than a year, and a place and time to exercise all other activities that fill my soul and that give me everything but money(for now), which usually go by the name of hobbies.
@@ -52,26 +52,20 @@ const ProfileComponent = () => {
                             Active interests:
                         </div>
                         <ul>
-                            <li>Classic Control Engineering</li>
-                            <li>Computer Vision</li>
-                            <li>Navigation for mobile robots</li>
-                            <li>Locomotion of legged robots</li>
-                            <li>Accounting</li>
-                            <li>Sight-reading with guitar</li>
+                            <li>Topology</li>
+                            <li>German language</li>
+                            <li>Chinese language</li>
                         </ul>
                     </div>
                     <div style={styles.rightSectionInterests}>
                         <div className={styles.subSectionHeader}>
                             Last read:
                         </div>
-                        <p> Ogawa, Yōko. Venganza </p>
-
+                        {getBookRef("Brandon", "Sanderson", "El archivo de las tormentas(V): Viento y verdad")}
                         <div className={styles.subSectionHeader}>
                             Currently reading:
                         </div>
-
-                        {getBookRef("Brandon", "Sanderson", "El archivo de las tormentas (IV): El ritmo de la guerra")}
-                        {getBookRef("Franz", "Kafka", "El proceso")}
+                        {getBookRef("Fiodor", "Dostoievsky", "El idiota")}
                     </div>
                 </div>
             </div>
@@ -98,14 +92,14 @@ const styles = {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'bg-blue-900',
-        color: '#fff0d0',
+        backgroundColor: '#ffffff',
+        color: '#000000',
     },
     rightSection: {
         flex: 1,
         padding: '20px',
-        backgroundColor: 'bg-blue-900',
-        color: '#fff0d0',
+        backgroundColor: '#ffffff',
+        color: '#000000',
     },
     leftSectionInterests: {
         flex: 1,

@@ -1,5 +1,6 @@
 ---
 import fs from 'fs'
+import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
@@ -25,7 +26,7 @@ const { title, description, pubDate, frontImage, posts, startHref, elementWidth,
 						posts.map((post) => (
 							
                 <a href={`/${startHref}/${post.slug}/`}>
-									<img width={elementWidth} height={elementWidth} src={post.data.heroImage} alt="" />
+									<img width={elementWidth} height={elementWidth} src={post.data.heroImage} alt="" class="center"/>
 									<h4 class="title">{post.data.title}</h4>
 									<p class="date">
 										<FormattedDate date={post.data.pubDate} />
@@ -41,3 +42,23 @@ const { title, description, pubDate, frontImage, posts, startHref, elementWidth,
 		<Footer />
 	</body>
 </html>
+
+<style>
+	h4 {
+		font-color: #000000
+	}
+	ul {
+		align-items: center;
+		text-align: center;
+	}
+	a {
+		align-items: center;
+		text-align: center;
+	}
+	img {
+		display: block;
+  		margin-left: auto;
+  		margin-right: auto;
+  		width: 55%;
+	}
+</style>
