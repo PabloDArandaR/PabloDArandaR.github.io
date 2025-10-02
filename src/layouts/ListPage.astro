@@ -9,35 +9,18 @@ import FormattedDate from '../components/FormattedDate.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 const { title, description, pubDate, frontImage, posts, startHref, elementWidth, elementHeight } = Astro.props;
 ---
 <!DOCTYPE html>
+
 <html lang="en">
 	<head>
-		<BaseHead title={title} description={description} />
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
-
 	<body>
 		<Header />
 		<main>
-			<section>
-				<ul>
-					{
-						posts.map((post) => (
-							
-                <a href={`/${startHref}/${post.slug}/`}>
-									<img width={elementWidth} height={elementWidth} src={post.data.heroImage} alt="" class="center"/>
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
-									</p>
-								</a>
-							
-						))
-					}
-				</ul>
-      </section>
-      <slot />
 		</main>
 		<Footer />
 	</body>

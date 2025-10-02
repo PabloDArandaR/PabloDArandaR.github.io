@@ -3,20 +3,51 @@ import Layout from '../../layouts/ListPage.astro';
 import fs from 'fs';
 import '../../styles/general.css';
 
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
 import { getCollection } from 'astro:content';
+import PortfolioComponent from '../../components/PortfolioComponent.jsx';
 const posts = (await getCollection('portfolio')).sort(
 	(a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
 );
 
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 ---
 
-<Layout
-	title="Portfolio"
-	description="Lorem ipsum dolor sit amet"
-	pubDate={new Date('August 08 2021')}
-  frontImage="/blog-placeholder-about.jpg"
-  posts={posts}
-  startHref='portfolio'
-  >
-    
-</Layout>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			
+            	<div client:load>
+                	<PortfolioComponent/>
+            	</div>
+
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	h4 {
+		font-color: #000000
+	}
+	ul {
+		align-items: center;
+		text-align: center;
+	}
+	a {
+		align-items: center;
+		text-align: center;
+	}
+	img {
+		display: block;
+  		margin-left: auto;
+  		margin-right: auto;
+  		width: 55%;
+	}
+</style>

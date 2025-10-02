@@ -26,7 +26,7 @@ const ProfileComponent = () => {
         <div style={styles.container}>
             <div style={styles.leftSection}>
                 <img
-                    src="https://via.placeholder.com/1300" // Replace with actual image URL
+                    src="profile.JPEG" // Replace with actual image URL
                     alt="Profile"
                     style={styles.image}
                 />
@@ -80,12 +80,12 @@ const styles = {
     container: {
         display: 'flex',
         flexDirection: 'row',
-        height: '100vh',
+        height: '70vh',
     },
     containerInterests: {
         display: 'flex',
         flexDirection: 'row',
-        height: '100vh',
+        height: '20vh',
     },
     leftSection: {
         flex: 1,
@@ -110,9 +110,9 @@ const styles = {
         padding: '20px',
     },
     image: {
-        maxWidth: '100%',
-        maxHeight: '100%',
-        objectFit: 'cover',
+        maxWidth: '70%',
+        maxHeight: '70%',
+        objectFit: 'contain',
         borderRadius: 10,
     },
 };
