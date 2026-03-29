@@ -87,7 +87,7 @@ const cv = [
         ],
         startDate: '2022-08-17',
         endDate: '2023-06-01',
-        tags: ['Mechanical Design', 'SolidWorks', 'Logistics Robotics'],
+        tags: ['Mechanical Design', 'SolidWorks', 'AMR', 'Python'],
         highlights: [
             'Mechanical design and validation for warehouse logistics platforms.',
             'Iterative design cycles for a commercial AMR product.',
@@ -253,7 +253,7 @@ const CVComponent = () => {
 
             <div style={innerStyle}>
                 {/* Work */}
-                <div className="reveal" style={blockHeadingWrapStyle}>
+                <div id="work" className="reveal" style={{ ...blockHeadingWrapStyle, scrollMarginTop: '80px' }}>
                     <div style={blockHeadingStyle}>
                         <div style={{ flex: 1, height: '2px', background: 'linear-gradient(to right, transparent, rgba(var(--color-strong-rgb),0.5))' }} />
                         <span style={{ color: 'var(--color-strong)', whiteSpace: 'nowrap' }}>Work experience</span>
@@ -263,7 +263,7 @@ const CVComponent = () => {
                 <TimelineBlock entries={workEntries} delayOffset={1} />
 
                 {/* Education */}
-                <div className="reveal" style={{ ...blockHeadingWrapStyle, marginTop: '3rem' }}>
+                <div id="education" className="reveal" style={{ ...blockHeadingWrapStyle, marginTop: '3rem', scrollMarginTop: '80px' }}>
                     <div style={blockHeadingStyle}>
                         <div style={{ flex: 1, height: '2px', background: 'linear-gradient(to right, transparent, rgba(93,138,168,0.5))' }} />
                         <span style={{ color: '#5d8aa8', whiteSpace: 'nowrap' }}>Education</span>

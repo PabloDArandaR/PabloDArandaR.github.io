@@ -6,6 +6,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import ProfileComponent from '../components/ProfileComponent.jsx';
 import CVComponent from '../components/CVComponent.jsx';
 import PortfolioComponent from '../components/PortfolioComponent.jsx';
+import SideNav from '../components/SideNav.jsx';
 ---
 
 <!doctype html>
@@ -24,6 +25,7 @@ import PortfolioComponent from '../components/PortfolioComponent.jsx';
 
         <Header />
 
+        <SideNav client:load />
         <ProfileComponent client:load />
         <CVComponent client:load />
         <PortfolioComponent client:load />

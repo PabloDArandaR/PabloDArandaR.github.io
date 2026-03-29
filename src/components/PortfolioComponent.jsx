@@ -225,7 +225,7 @@ const PortfolioComponent = () => {
     }, []);
 
     return (
-        <section ref={sectionRef} style={sectionStyle}>
+        <section id="projects" ref={sectionRef} style={sectionStyle}>
             <div style={dotGridStyle} aria-hidden="true" />
 
             <div style={innerStyle}>
@@ -235,9 +235,6 @@ const PortfolioComponent = () => {
                         <span style={{ color: 'var(--color-strong)', whiteSpace: 'nowrap' }}>Selected projects</span>
                         <div style={{ flex: 1, height: '2px', background: 'linear-gradient(to left, transparent, rgba(var(--color-strong-rgb),0.5))' }} />
                     </h2>
-                    <p style={sectionSubtitleStyle}>
-                        A cross-section of work in simulation, mathematics, and robotics.
-                    </p>
                 </div>
 
                 <div style={{ ...gridStyle, gridTemplateColumns: `repeat(${sorted.length}, 1fr)` }}>
@@ -272,6 +269,7 @@ const sectionStyle = {
     backgroundColor: 'var(--color-main)',
     overflow: 'hidden',
     padding: '4rem 0',
+    scrollMarginTop: '60px',
 };
 
 const dotGridStyle = {

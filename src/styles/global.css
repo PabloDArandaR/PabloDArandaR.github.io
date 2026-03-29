@@ -273,6 +273,20 @@ hr {
     transform: translateY(0);
 }
 
+/* ─── Side nav ───────────────────────────────────────────────── */
+.sidenav-item:hover .sidenav-label,
+.sidenav-active .sidenav-label {
+    opacity: 1 !important;
+    transform: translateX(0) !important;
+}
+.sidenav-item:hover .sidenav-dot {
+    opacity: 0.7 !important;
+    background: var(--color-strong) !important;
+}
+@media (max-width: 768px) {
+    nav[aria-label="Page sections"] { display: none; }
+}
+
 /* ─── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 720px) {
     body { font-size: 18px; }

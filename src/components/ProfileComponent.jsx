@@ -46,7 +46,7 @@ const ProfileComponent = () => {
     }, []);
 
     return (
-        <section ref={sectionRef} style={sectionStyle}>
+        <section id="intro" ref={sectionRef} style={sectionStyle}>
             {/* Dot-grid overlay */}
             <div style={dotGridStyle} aria-hidden="true" />
 
@@ -150,6 +150,7 @@ const sectionStyle = {
     backgroundColor: 'var(--color-main)',
     overflow: 'hidden',
     padding: '5rem 0 4rem',
+    scrollMarginTop: '60px',
 };
 
 const dotGridStyle = {
