@@ -1,120 +1,305 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import '../index.css';
 
+// ── Data ──────────────────────────────────────────────────────────
+const interests = [
+    { label: 'Control Engineering', icon: '⟳' },
+    { label: 'Motion Planning',     icon: '⇢' },
+    { label: 'SLAM',                icon: '◎' },
+    { label: 'Embedded Systems',    icon: '⬡' },
+];
+
+const learning = [
+    { label: 'German',           icon: 'DE' },
+    { label: 'Topology',         icon: '∞' },
+    { label: 'Abstract Algebra', icon: '⊕' },
+];
+
+const reading = {
+    last: { author: 'Fernandez Villaverde, Jesus; de la Torre, Francisco', title: 'La factura del cupo catalán: Privilegios territoriales frente a ciudadanía' },
+    current: [
+        { author: 'Kenko; Chomei', title: 'Essays in Idleness and Hojoki' },
+	{ author: 'Murakami, Haruki', title: 'Kafka en la orilla'}
+    ],
+};
+
+// ── Component ─────────────────────────────────────────────────────
 const ProfileComponent = () => {
-    const [bioData, setBioData] = useState(null);
+    const sectionRef = useRef(null);
 
+    // Scroll-reveal
     useEffect(() => {
-        const fetchBioData = async () => {
-            try {
-                const response = await fetch('https://api.example.com/bio'); // Replace with actual API URL
-                const data = await response.json();
-                setBioData(data);
-            } catch (error) {
-                console.error('Error fetching bio data:', error);
-            }
-        };
-
-        fetchBioData();
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((e) => {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('visible');
+                        observer.unobserve(e.target);
+                    }
+                });
+            },
+            { threshold: 0.1 }
+        );
+        const items = sectionRef.current?.querySelectorAll('.reveal');
+        items?.forEach((el) => observer.observe(el));
+        return () => observer.disconnect();
     }, []);
 
-    const getBookRef = (name, surname, title) => {
-        return <p> {surname}, {name}. <em>{title}</em> </p>
-    };
-
     return (
-        <div style={styles.container}>
-            <div style={styles.leftSection}>
-                <img
-                    src="profile.JPEG" // Replace with actual image URL
-                    alt="Profile"
-                    style={styles.image}
-                />
-            </div>
-            <div style={styles.rightSection}>
-                <div className={styles.mainHeader}>
-                    Pablo David Aranda Rodriguez
-                </div>
-                <div className="">
-                    <i>Robotics engineer and frustrated musician</i>
-                </div>
-                <p>
-                    I am originally from a medium-sized city in the middle of a desert in the north-east of Spain, which goes by the name of Saragossa. I moved to Odense, Denmark to finish my master studies in Industrial Engineering and pursue a second Masterm this time in Robotics, which I finished in Munich, where I did an exchange semester at the Hochshule Munchen and my Master's Thesis at the Technische Universitat Munchen.
-                </p>
-                <p>
-                    Here in Munich is where I got to find the spot in the world where I managed to find happiness, my girlfriend with whom I've been living for more than a year, and a place and time to exercise all other activities that fill my soul and that give me everything but money(for now), which usually go by the name of hobbies.
-                </p>
+        <section ref={sectionRef} style={sectionStyle}>
+            {/* Dot-grid overlay */}
+            <div style={dotGridStyle} aria-hidden="true" />
 
-                <div style={styles.containerInterests}>
-                    <div style={styles.leftSectionInterests}>
-
-                        <div className={styles.subHeader}>
-                            Active interests:
-                        </div>
-                        <ul>
-                            <li>Topology</li>
-                            <li>German language</li>
-                            <li>Chinese language</li>
-                        </ul>
+            <div style={innerStyle}>
+                {/* ── Bio ───────────────────────────── */}
+                <div style={bioColStyle}>
+                    <div className="reveal" style={{ transitionDelay: '0.1s' }}>
+                        <h1 style={nameStyle}>Pablo David Aranda Rodríguez</h1>
+                        <p style={subtitleStyle}>
+                            <em>Robotics engineer &amp; frustrated musician</em>
+                        </p>
                     </div>
-                    <div style={styles.rightSectionInterests}>
-                        <div className={styles.subSectionHeader}>
-                            Last read:
+
+                    <div className="reveal" style={{ transitionDelay: '0.2s' }}>
+                        <p style={bioTextStyle}>
+                            Originally from Saragossa — a medium-sized city in the middle of
+                            the Iberian desert. Moved to Odense, Denmark to complete a Master's
+                            in Industrial Engineering and a second one in Robotics, which I
+                            finished in Munich: exchange semester at Hochschule München,
+                            thesis at the Technische Universität München.
+                        </p>
+                        <p style={bioTextStyle}>
+                            Munich is where I found what I was looking for: a field that
+                            puts AI, mechanics, and mathematics in motion; a partner to
+                            share it all with; and enough quiet time to practice all those
+                            activities that feed the soul but (for now) not the bank account.
+                        </p>
+                    </div>
+
+                    {/* ── Interests + Books ─────────── */}
+                    <div className="reveal" style={{ ...interestsRowStyle, transitionDelay: '0.3s' }}>
+                        {/* Interests */}
+                        <div style={interestBlockStyle}>
+                            <h3 style={blockHeadStyle}>Interests</h3>
+                            <ul style={listStyle}>
+                                {interests.map((item) => (
+                                    <li key={item.label} style={listItemStyle}>
+                                        <span style={iconStyle}>{item.icon}</span>
+                                        {item.label}
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
-                        {getBookRef("Brandon", "Sanderson", "El archivo de las tormentas(V): Viento y verdad")}
-                        <div className={styles.subSectionHeader}>
-                            Currently reading:
+
+                        {/* Currently learning */}
+                        <div style={interestBlockStyle}>
+                            <h3 style={blockHeadStyle}>Currently learning</h3>
+                            <ul style={listStyle}>
+                                {learning.map((item) => (
+                                    <li key={item.label} style={listItemStyle}>
+                                        <span style={iconStyle}>{item.icon}</span>
+                                        {item.label}
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
-                        {getBookRef("Fiodor", "Dostoievsky", "El idiota")}
+
+                        {/* Reading */}
+                        <div style={interestBlockStyle}>
+                            <h3 style={blockHeadStyle}>Reading</h3>
+                            <div style={bookSectionStyle}>
+                                <span style={bookLabelStyle}>Last read</span>
+                                <p style={bookStyle}>
+                                    {reading.last.author}.{' '}
+                                    <em style={{ color: 'var(--color-sub-dimm)' }}>{reading.last.title}</em>
+                                </p>
+                            </div>
+                            <div style={bookSectionStyle}>
+                                <span style={bookLabelStyle}>Currently reading</span>
+                                {reading.current.filter((b) => b.title).map((book) => (
+                                    <p key={book.title} style={bookStyle}>
+                                        {book.author}.{' '}
+                                        <em style={{ color: 'var(--color-sub-dimm)' }}>{book.title}</em>
+                                    </p>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* ── Photo ─────────────────────────── */}
+                <div className="reveal" style={photoColStyle}>
+                    <div style={photoWrapStyle}>
+                        <img
+                            src="/profile.JPEG"
+                            alt="Pablo David Aranda Rodríguez"
+                            style={photoStyle}
+                        />
+                        {/* Decorative orbit ring */}
+                        <div style={orbitRingStyle} aria-hidden="true" />
                     </div>
                 </div>
             </div>
-        </div >
+        </section>
     );
 };
 
-const styles = {
-    mainHeader: 'text-white text-4xl font-bold underline text-slate-900',
-    subHeader: 'text-white text-2xl font-bold text-slate-800',
-    subSectionHeader: ' text-white text-2xl font-bold text-slate-900',
-    container: {
-        display: 'flex',
-        flexDirection: 'row',
-        height: '70vh',
-    },
-    containerInterests: {
-        display: 'flex',
-        flexDirection: 'row',
-        height: '20vh',
-    },
-    leftSection: {
-        flex: 1,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#ffffff',
-        color: '#000000',
-    },
-    rightSection: {
-        flex: 1,
-        padding: '20px',
-        backgroundColor: '#ffffff',
-        color: '#000000',
-    },
-    leftSectionInterests: {
-        flex: 1,
-        padding: '20px',
-    },
-    rightSectionInterests: {
-        flex: 1,
-        padding: '20px',
-    },
-    image: {
-        maxWidth: '70%',
-        maxHeight: '70%',
-        objectFit: 'contain',
-        borderRadius: 10,
-    },
+// ── Styles ────────────────────────────────────────────────────────
+const sectionStyle = {
+    position: 'relative',
+    backgroundColor: 'var(--color-main)',
+    overflow: 'hidden',
+    padding: '5rem 0 4rem',
+};
+
+const dotGridStyle = {
+    position: 'absolute',
+    inset: 0,
+    backgroundImage: 'radial-gradient(circle, rgba(93,138,168,0.18) 1px, transparent 1px)',
+    backgroundSize: '28px 28px',
+    pointerEvents: 'none',
+};
+
+const innerStyle = {
+    position: 'relative',
+    maxWidth: '1280px',
+    margin: '0 auto',
+    padding: '0 1.5rem',
+    display: 'flex',
+    alignItems: 'flex-start',
+    gap: '4rem',
+    flexWrap: 'wrap',
+};
+
+const photoColStyle = {
+    flexShrink: 0,
+    display: 'flex',
+    justifyContent: 'center',
+    alignSelf: 'stretch',
+    alignItems: 'center',
+};
+
+const photoWrapStyle = {
+    position: 'relative',
+    width: '300px',
+    height: '380px',
+};
+
+const photoStyle = {
+    width: '300px',
+    height: '380px',
+    borderRadius: '16px',
+    objectFit: 'cover',
+    objectPosition: 'center top',
+    border: '2px solid rgba(var(--color-strong-rgb), 0.4)',
+    boxShadow: '0 8px 32px rgba(0,0,0,0.18), 0 0 0 1px rgba(var(--color-strong-rgb), 0.1)',
+    display: 'block',
+};
+
+const orbitRingStyle = {
+    position: 'absolute',
+    inset: '-10px',
+    borderRadius: '22px',
+    border: '1px dashed rgba(232,130,63,0.25)',
+    pointerEvents: 'none',
+    animation: 'spin 40s linear infinite',
+};
+
+const bioColStyle = {
+    flex: 1,
+    minWidth: '280px',
+    color: 'var(--color-sub-dimm)',
+};
+
+const nameStyle = {
+    fontSize: 'var(--text-2xl)',
+    fontWeight: 700,
+    color: 'var(--color-sub-dimm)',
+    margin: '0 0 0.2em',
+    lineHeight: 1.15,
+};
+
+const subtitleStyle = {
+    fontSize: 'var(--text-lg)',
+    color: 'var(--color-sub)',
+    margin: '0 0 1.25em',
+};
+
+const bioTextStyle = {
+    fontSize: 'var(--text-base)',
+    color: 'var(--color-sub)',
+    textAlign: 'justify',
+    lineHeight: 1.75,
+    margin: '0 0 0.85em',
+};
+
+const interestsRowStyle = {
+    display: 'flex',
+    gap: '2.5rem',
+    flexWrap: 'wrap',
+    marginTop: '1.5rem',
+    paddingTop: '1.5rem',
+    borderTop: '1px solid rgba(93,138,168,0.18)',
+};
+
+const interestBlockStyle = {
+    flex: 1,
+    minWidth: '180px',
+};
+
+const blockHeadStyle = {
+    fontSize: 'var(--text-xs)',
+    fontWeight: 700,
+    textTransform: 'uppercase',
+    letterSpacing: '0.1em',
+    color: 'var(--color-strong)',
+    margin: '0 0 0.75em',
+};
+
+const listStyle = {
+    listStyle: 'none',
+    padding: 0,
+    margin: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.4em',
+};
+
+const listItemStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.6em',
+    fontSize: 'var(--text-sm)',
+    color: 'var(--color-sub)',
+};
+
+const iconStyle = {
+    display: 'inline-block',
+    width: '1.4em',
+    textAlign: 'center',
+    fontSize: '0.85em',
+    color: 'var(--color-strong)',
+    fontStyle: 'normal',
+};
+
+const bookSectionStyle = {
+    marginBottom: '0.75em',
+};
+
+const bookLabelStyle = {
+    display: 'block',
+    fontSize: 'var(--text-xs)',
+    textTransform: 'uppercase',
+    letterSpacing: '0.08em',
+    color: 'var(--color-strong)',
+    marginBottom: '0.25em',
+};
+
+const bookStyle = {
+    fontSize: 'var(--text-sm)',
+    color: 'var(--color-sub)',
+    margin: 0,
+    lineHeight: 1.5,
 };
 
 export default ProfileComponent;

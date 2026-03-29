@@ -1,19 +1,15 @@
 ---
 import Layout from '../../layouts/ListPage.astro';
 import { getCollection } from 'astro:content';
+
 const posts = (await getCollection('blog')).sort(
-	(a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 ---
 
-
 <Layout
-	title="Blog"
-	description="Lorem ipsum dolor sit amet"
-	pubDate={new Date('August 08 2021')}
-  	frontImage="/blog-placeholder-about.jpg"
-  	posts={posts}
-  	startHref='blog'
->
-
-</Layout>
+    title="Blog"
+    description="Thoughts, tutorials, and notes on robotics, engineering, and whatever else ends up on the page."
+    posts={posts}
+    startHref="blog"
+/>

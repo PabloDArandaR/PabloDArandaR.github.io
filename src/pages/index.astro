@@ -5,23 +5,29 @@ import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import ProfileComponent from '../components/ProfileComponent.jsx';
 import CVComponent from '../components/CVComponent.jsx';
+import PortfolioComponent from '../components/PortfolioComponent.jsx';
 ---
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
+    <head>
+        <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    </head>
     <body>
-		<Header />
-        <main>
-            <div client:load>
-                <ProfileComponent />
-            </div>
-            <div client:load>
-                <CVComponent/>
-            </div>
-	    </main>
-	    <Footer />
-	</body>
+        <!-- Theme initialiser — runs before first paint to avoid flash -->
+        <script is:inline>
+            (function () {
+                const saved = localStorage.getItem('theme') || 'dark';
+                document.documentElement.setAttribute('data-theme', saved);
+            })();
+        </script>
+
+        <Header />
+
+        <ProfileComponent client:load />
+        <CVComponent client:load />
+        <PortfolioComponent client:load />
+
+        <Footer />
+    </body>
 </html>

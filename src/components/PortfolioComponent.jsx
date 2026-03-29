@@ -1,88 +1,539 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import '../index.css';
-import styles from './style.css';
 
-const PortfolioData = [
-	{
-		"name": "Planetary system simulation",
-		"repo": "https://github.com/pablodarandar/planetary_system",
-		"description": [
-			"Simulator of bodies under the effect of gravity"
-		],
-		"prio": 10,
-	},
-	{
-		"name": "Chaos Theory",
-		"repo": "https://github.com/PabloDArandaR/ChaosTheory",
-		"description": [
-			"Implementation of several chaotic attractors"
-		],
-		"prio": 9,
-	},
-	{
-		"name": "Mapping methods",
-		"repo": "https://github.com/PabloDArandaR/mapping-methods",
-		"description": [
-			"Implementation and testing of mapping methods for robotic plarforms",
-			"Graphic applications for testing interactively",
-			"New methods currently being implemented and tested",
-			"New methods currently being implemented and tested",
-			"What the hell is going on in this webpage"
-		],
-		"prio": 3,
-	},
-]
+// ── Data ──────────────────────────────────────────────────────────
+const portfolioData = [
+    {
+        name: 'Planetary System Simulation',
+        repo: 'https://github.com/pablodarandar/planetary_system',
+        tags: ['Physics', 'Simulation', 'Python'],
+        description:
+            'N-body gravitational simulator — models orbital mechanics and collisions between celestial bodies using numerical integration methods.',
+        details: [
+            'Implements RK4 and Verlet integration schemes for accuracy comparison.',
+            'Handles elastic and inelastic collisions with momentum conservation.',
+            'Visualises trajectories and energy conservation over time.',
+            'Configurable initial conditions: mass, velocity, position.',
+        ],
+        prio: 1,
+        icon: '🪐',
+    },
+    {
+        name: 'Chaos Theory Attractors',
+        repo: 'https://github.com/PabloDArandaR/ChaosTheory',
+        tags: ['Mathematics', 'Visualisation', 'Python'],
+        description:
+            'Interactive implementation of several chaotic attractors (Lorenz, Rössler, Halvorsen) with 3D trajectory visualisation.',
+        details: [
+            'Covers Lorenz, Rössler, Halvorsen, and Thomas attractors.',
+            'Real-time 3D rendering with adjustable system parameters.',
+            'Demonstrates sensitivity to initial conditions (butterfly effect).',
+            'Phase-space plots and Lyapunov exponent estimation.',
+        ],
+        prio: 2,
+        icon: '∿',
+    },
+    {
+        name: 'Mapping Methods for Robotic Platforms',
+        repo: 'https://github.com/PabloDArandaR/mapping-methods',
+        tags: ['Robotics', 'SLAM', 'ROS'],
+        description:
+            'Implementation and benchmarking of occupancy-grid and feature-based mapping algorithms for mobile robotic platforms, with an interactive GUI for real-time testing.',
+        details: [
+            'Occupancy-grid mapping with Bayesian update rules.',
+            'Feature-based mapping using RANSAC landmark extraction.',
+            'ROS integration for sensor input and robot control.',
+            'Interactive GUI for live map inspection and parameter tuning.',
+            'Benchmarked on simulated and real-world datasets.',
+        ],
+        prio: 3,
+        icon: '◎',
+    },
+    {
+        name: 'Encode task impedance from demonstration',
+        repo: null,
+        tags: ['Robotics', 'ML', 'Manipulation'],
+        description:
+            'Master\'s thesis work: robot arm learns manipulation tasks from human demonstrations using imitation learning techniques.',
+        details: [
+            'Kinesthetic teaching interface for human demonstration collection.',
+            'Dynamic Movement Primitives (DMP) for trajectory encoding.',
+            'Gaussian Mixture Regression for generalisation across task variations.',
+            'Evaluated on a 7-DoF robot arm at TU München.',
+            'Thesis completed in collaboration with the Chair of Robotics, AI and Real-time Systems.',
+        ],
+        prio: 4,
+        icon: '⟳',
+    },
+];
 
-const GetGithubData = (repo) => {
-	return (
+// ── GitHub icon ───────────────────────────────────────────────────
+const GitHubIcon = () => (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+        <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+    </svg>
+);
 
-		<a href={repo} target="_blank">
-			<span class="sr-only">Check my GitHub repos!</span>
-			<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32">
-				<path
-					fill="currentColor"
-					d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z">
-				</path>
-			</svg>
-		</a>
-	)
-}
-
-const GenerateDescription = (desc) => {
-	return (
-		<ul>
-		{desc.map((d, index) => {
-				return (
-					<li> {d} </li>
-				)
-			})
-		}
-		</ul>
-	)
-}
-
-const PortfolioComponent = () => {
-    const [bioData, setBioData] = useState(null);
-
-	const orderedData = PortfolioData.sort((a, b) => a.prio - b.prio)
+// ── Modal ─────────────────────────────────────────────────────────
+const ProjectModal = ({ project, onClose }) => {
+    useEffect(() => {
+        const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+        document.addEventListener('keydown', onKey);
+        return () => document.removeEventListener('keydown', onKey);
+    }, [onClose]);
 
     return (
-		orderedData.map((node, index) => {
-        	return (
-			<div className="container">
-				<div className="textSide">
-					<div className="titleClass">
-	    					<a className="titleClass" href={node.repo}>{node.name}</a>
-					</div>
-					<p>{GenerateDescription(node.description)}</p>
-				</div>
-				<div className="graphSide">
-				</div>
-        		</div>
-			)
-	    	})
-    	)
+        <div style={backdropStyle} onClick={onClose}>
+            <div style={modalStyle} onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+                {/* Close */}
+                <button
+                    style={closeButtonStyle}
+                    onClick={onClose}
+                    aria-label="Close"
+                    onMouseEnter={(e) => { e.currentTarget.style.color = '#e8f2ff'; e.currentTarget.style.background = 'rgba(93,138,168,0.15)'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(93,138,168,0.5)'; e.currentTarget.style.background = 'transparent'; }}
+                >
+                    ✕
+                </button>
+
+                {/* Header */}
+                <div style={modalHeaderStyle}>
+                    <div style={modalIconStyle} aria-hidden="true">{project.icon}</div>
+                    <h2 style={modalTitleStyle}>{project.name}</h2>
+                </div>
+
+                {/* Tags */}
+                <div style={tagsStyle}>
+                    {project.tags.map((tag) => (
+                        <span key={tag} style={tagStyle}>{tag}</span>
+                    ))}
+                </div>
+
+                {/* Description */}
+                <p style={modalDescStyle}>{project.description}</p>
+
+                {/* Details */}
+                {project.details && (
+                    <ul style={detailsListStyle}>
+                        {project.details.map((point) => (
+                            <li key={point} style={detailsItemStyle}>
+                                <span style={detailsBulletStyle}>▸</span>
+                                {point}
+                            </li>
+                        ))}
+                    </ul>
+                )}
+
+                {/* Footer */}
+                <div style={modalFooterStyle}>
+                    {project.repo ? (
+                        <a
+                            href={project.repo}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={repoLinkStyle}
+                            onMouseEnter={(e) => { e.currentTarget.style.color = '#e8823f'; e.currentTarget.style.borderColor = '#e8823f'; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(93,138,168,0.65)'; e.currentTarget.style.borderColor = 'rgba(93,138,168,0.22)'; }}
+                        >
+                            <GitHubIcon />
+                            <span>View on GitHub</span>
+                        </a>
+                    ) : (
+                        <span style={wipBadgeStyle}>Work in progress</span>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
 };
 
+// ── Card ──────────────────────────────────────────────────────────
+const ProjectCard = ({ project, onClick }) => {
+    return (
+        <div
+            style={cardStyle}
+            onClick={onClick}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onClick(); }}
+            onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(var(--color-sub-rgb),0.45)';
+                e.currentTarget.style.cursor = 'pointer';
+            }}
+            onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'var(--card-border)';
+            }}
+        >
+            {/* Icon + Title */}
+            <div style={cardHeaderStyle}>
+                <div style={cardIconWrapStyle} aria-hidden="true">
+                    <span style={cardIconStyle}>{project.icon}</span>
+                </div>
+                <h3 style={cardTitleStyle}>{project.name}</h3>
+            </div>
+
+            {/* Tags */}
+            <div style={tagsStyle}>
+                {project.tags.map((tag) => (
+                    <span key={tag} style={tagStyle}>{tag}</span>
+                ))}
+            </div>
+
+            {/* Footer */}
+            <div style={cardFooterStyle}>
+                {project.repo ? (
+                    <span style={cardHintStyle}>
+                        <GitHubIcon /> View on GitHub
+                    </span>
+                ) : (
+                    <span style={wipBadgeStyle}>Work in progress</span>
+                )}
+                <span style={cardHintStyle}>Click for details ›</span>
+            </div>
+        </div>
+    );
+};
+
+// ── Per-card scatter offsets (deterministic) ──────────────────────
+const cardScatter = [
+    'rotate(-1.5deg) translateY(0px)',
+    'rotate(1.0deg)  translateY(16px)',
+    'rotate(-0.6deg) translateY(8px)',
+    'rotate(2.0deg)  translateY(-10px)',
+];
+
+// ── Main component ────────────────────────────────────────────────
+const PortfolioComponent = () => {
+    const sectionRef = useRef(null);
+    const [activeProject, setActiveProject] = useState(null);
+
+    const sorted = [...portfolioData].sort((a, b) => a.prio - b.prio);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => entries.forEach((e) => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    observer.unobserve(e.target);
+                }
+            }),
+            { threshold: 0.07 }
+        );
+        const items = sectionRef.current?.querySelectorAll('.reveal');
+        items?.forEach((el) => observer.observe(el));
+        return () => observer.disconnect();
+    }, []);
+
+    return (
+        <section ref={sectionRef} style={sectionStyle}>
+            <div style={dotGridStyle} aria-hidden="true" />
+
+            <div style={innerStyle}>
+                <div className="reveal" style={headingWrapStyle}>
+                    <h2 style={sectionTitleStyle}>
+                        <div style={{ flex: 1, height: '2px', background: 'linear-gradient(to right, transparent, rgba(var(--color-strong-rgb),0.5))' }} />
+                        <span style={{ color: 'var(--color-strong)', whiteSpace: 'nowrap' }}>Selected projects</span>
+                        <div style={{ flex: 1, height: '2px', background: 'linear-gradient(to left, transparent, rgba(var(--color-strong-rgb),0.5))' }} />
+                    </h2>
+                    <p style={sectionSubtitleStyle}>
+                        A cross-section of work in simulation, mathematics, and robotics.
+                    </p>
+                </div>
+
+                <div style={{ ...gridStyle, gridTemplateColumns: `repeat(${sorted.length}, 1fr)` }}>
+                    {sorted.map((project, i) => (
+                        <div
+                            key={project.name}
+                            className="reveal"
+                            style={{
+                                transitionDelay: `${i * 0.08}s`,
+                                transform: cardScatter[i % cardScatter.length],
+                                transition: 'transform 0.35s ease, opacity 0.6s ease',
+                            }}
+                            onMouseEnter={(e) => { e.currentTarget.style.transform = 'rotate(0deg) translateY(-4px)'; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.transform = cardScatter[i % cardScatter.length]; }}
+                        >
+                            <ProjectCard project={project} onClick={() => setActiveProject(project)} />
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {activeProject && (
+                <ProjectModal project={activeProject} onClose={() => setActiveProject(null)} />
+            )}
+        </section>
+    );
+};
+
+// ── Styles ────────────────────────────────────────────────────────
+const sectionStyle = {
+    position: 'relative',
+    backgroundColor: 'var(--color-main)',
+    overflow: 'hidden',
+    padding: '4rem 0',
+};
+
+const dotGridStyle = {
+    position: 'absolute',
+    inset: 0,
+    backgroundImage: 'radial-gradient(circle, rgba(232,130,63,0.07) 1px, transparent 1px)',
+    backgroundSize: '28px 28px',
+    pointerEvents: 'none',
+};
+
+const innerStyle = {
+    position: 'relative',
+    width: '100%',
+    maxWidth: '100%',
+    padding: '0 2rem',
+    boxSizing: 'border-box',
+};
+
+const headingWrapStyle = {
+    marginBottom: '2.5rem',
+};
+
+const sectionTitleStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.9em',
+    fontSize: 'var(--text-2xl)',
+    fontWeight: 700,
+    letterSpacing: '-0.01em',
+    margin: '0 0 0.4em',
+};
+
+const sectionSubtitleStyle = {
+    fontSize: 'var(--text-sm)',
+    color: 'var(--color-sub)',
+    margin: 0,
+    opacity: 0.75,
+};
+
+const gridStyle = {
+    display: 'grid',
+    gap: '1.5rem',
+    alignItems: 'start',
+    width: '100%',
+};
+
+const cardStyle = {
+    backgroundColor: 'var(--card-bg)',
+    border: '1px solid var(--card-border)',
+    borderRadius: '10px',
+    padding: '1.4rem',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.75rem',
+    transition: 'border-color 0.2s, transform 0.2s, background-color 0.2s',
+};
+
+const cardHeaderStyle = {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: '0.6em',
+};
+
+const cardIconWrapStyle = {
+    width: '2.2rem',
+    height: '2.2rem',
+    borderRadius: '8px',
+    background: 'rgba(var(--color-strong-rgb), 0.1)',
+    border: '1px solid rgba(var(--color-strong-rgb), 0.2)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+};
+
+const cardIconStyle = {
+    fontSize: '1.1rem',
+    lineHeight: 1,
+    display: 'block',
+};
+
+const cardTitleStyle = {
+    fontSize: 'var(--text-base)',
+    fontWeight: 600,
+    color: 'var(--color-sub-dimm)',
+    margin: 0,
+    lineHeight: 1.3,
+};
+
+const cardDescStyle = {
+    fontSize: 'var(--text-sm)',
+    color: 'var(--color-sub)',
+    lineHeight: 1.65,
+    margin: 0,
+    flex: 1,
+};
+
+const tagsStyle = {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: '0.4em',
+};
+
+const tagStyle = {
+    fontSize: 'var(--text-xs)',
+    padding: '0.2em 0.6em',
+    borderRadius: '20px',
+    background: 'rgba(var(--color-strong-rgb), 0.12)',
+    border: '1px solid rgba(var(--color-strong-rgb), 0.3)',
+    color: 'var(--color-strong)',
+    letterSpacing: '0.03em',
+    fontWeight: 600,
+};
+
+const cardFooterStyle = {
+    paddingTop: '0.5rem',
+    borderTop: '1px solid var(--card-border)',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+};
+
+const cardHintStyle = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '0.4em',
+    fontSize: 'var(--text-xs)',
+    color: 'var(--content-muted)',
+    opacity: 0.7,
+};
+
+const repoLinkStyle = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '0.4em',
+    fontSize: 'var(--text-sm)',
+    color: 'var(--content-muted)',
+    border: '1px solid rgba(var(--color-sub-rgb),0.25)',
+    borderRadius: '6px',
+    padding: '0.3em 0.7em',
+    textDecoration: 'none',
+    transition: 'color 0.2s, border-color 0.2s',
+};
+
+const wipBadgeStyle = {
+    fontSize: 'var(--text-xs)',
+    color: 'var(--content-muted)',
+    opacity: 0.6,
+    fontStyle: 'italic',
+};
+
+// ── Modal styles ──────────────────────────────────────────────────
+const backdropStyle = {
+    position: 'fixed',
+    inset: 0,
+    backgroundColor: 'rgba(10, 18, 30, 0.75)',
+    backdropFilter: 'blur(4px)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 1000,
+    padding: '1.5rem',
+};
+
+const modalStyle = {
+    position: 'relative',
+    backgroundColor: 'var(--color-dimm)',
+    border: '1px solid rgba(93,138,168,0.25)',
+    borderRadius: '12px',
+    padding: '2.5rem',
+    maxWidth: '780px',
+    width: '100%',
+    maxHeight: '80vh',
+    overflowY: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+};
+
+const closeButtonStyle = {
+    position: 'absolute',
+    top: '1rem',
+    right: '1rem',
+    background: 'transparent',
+    border: 'none',
+    color: 'rgba(93,138,168,0.5)',
+    fontSize: '1rem',
+    cursor: 'pointer',
+    width: '28px',
+    height: '28px',
+    borderRadius: '6px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transition: 'color 0.2s, background 0.2s',
+};
+
+const modalHeaderStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.75em',
+    paddingRight: '2rem',
+};
+
+const modalIconStyle = {
+    width: '2.8rem',
+    height: '2.8rem',
+    borderRadius: '10px',
+    background: 'rgba(var(--color-strong-rgb), 0.1)',
+    border: '1px solid rgba(var(--color-strong-rgb), 0.2)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '1.4rem',
+    lineHeight: 1,
+    flexShrink: 0,
+};
+
+const modalTitleStyle = {
+    fontSize: 'var(--text-lg)',
+    fontWeight: 700,
+    color: 'var(--color-sub-dimm)',
+    margin: 0,
+    lineHeight: 1.25,
+};
+
+const modalDescStyle = {
+    fontSize: 'var(--text-sm)',
+    color: 'var(--color-sub)',
+    lineHeight: 1.7,
+    margin: 0,
+    paddingTop: '0.25rem',
+    borderTop: '1px solid rgba(93,138,168,0.12)',
+};
+
+const detailsListStyle = {
+    listStyle: 'none',
+    margin: 0,
+    padding: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.5em',
+};
+
+const detailsItemStyle = {
+    display: 'flex',
+    gap: '0.6em',
+    fontSize: 'var(--text-sm)',
+    color: 'var(--content-muted)',
+    lineHeight: 1.5,
+};
+
+const detailsBulletStyle = {
+    color: 'var(--color-strong)',
+    flexShrink: 0,
+    marginTop: '0.05em',
+};
+
+const modalFooterStyle = {
+    paddingTop: '0.5rem',
+    borderTop: '1px solid rgba(93,138,168,0.12)',
+};
 
 export default PortfolioComponent;

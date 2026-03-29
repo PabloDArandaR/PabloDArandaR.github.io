@@ -1,6 +1,5 @@
 const HEIGHT_INCREMENT = 100;
 const WIDTH_INCREMENT = 50;
-const cv_first = "B.Ing";
 const cv = [
   {
     id: "B.Ing",
@@ -151,4 +150,3 @@ const main = () => {
   console.log(nodes);
 };
 main();
-
