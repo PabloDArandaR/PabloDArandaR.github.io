@@ -10,9 +10,7 @@ const portfolioData = [
         description:
             'N-body gravitational simulator — models orbital mechanics and collisions between celestial bodies using numerical integration methods.',
         details: [
-            'Implements RK4 and Verlet integration schemes for accuracy comparison.',
-            'Handles elastic and inelastic collisions with momentum conservation.',
-            'Visualises trajectories and energy conservation over time.',
+            'Visualises trajectories over time.',
             'Configurable initial conditions: mass, velocity, position.',
         ],
         prio: 1,
@@ -25,10 +23,8 @@ const portfolioData = [
         description:
             'Interactive implementation of several chaotic attractors (Lorenz, Rössler, Halvorsen) with 3D trajectory visualisation.',
         details: [
-            'Covers Lorenz, Rössler, Halvorsen, and Thomas attractors.',
-            'Real-time 3D rendering with adjustable system parameters.',
+            'Covers Aizawa, Rössler, Chen-Lee, and Arneodo attractors.',
             'Demonstrates sensitivity to initial conditions (butterfly effect).',
-            'Phase-space plots and Lyapunov exponent estimation.',
         ],
         prio: 2,
         icon: '∿',
@@ -38,29 +34,22 @@ const portfolioData = [
         repo: 'https://github.com/PabloDArandaR/mapping-methods',
         tags: ['Robotics', 'SLAM', 'ROS'],
         description:
-            'Implementation and benchmarking of occupancy-grid and feature-based mapping algorithms for mobile robotic platforms, with an interactive GUI for real-time testing.',
+            'Implementation and benchmarking of occupancy-grid mapping algorithms for mobile robotic platforms.',
         details: [
-            'Occupancy-grid mapping with Bayesian update rules.',
-            'Feature-based mapping using RANSAC landmark extraction.',
-            'ROS integration for sensor input and robot control.',
-            'Interactive GUI for live map inspection and parameter tuning.',
-            'Benchmarked on simulated and real-world datasets.',
         ],
         prio: 3,
         icon: '◎',
     },
     {
         name: 'Encode task impedance from demonstration',
-        repo: null,
+        repo: 'https://github.com/PabloDArandaR/encode-task-impedance-from-demonstration',
         tags: ['Robotics', 'ML', 'Manipulation'],
         description:
-            'Master\'s thesis work: robot arm learns manipulation tasks from human demonstrations using imitation learning techniques.',
+            'Robot arm learns manipulation controller from human demonstrations using imitation learning techniques.',
         details: [
             'Kinesthetic teaching interface for human demonstration collection.',
-            'Dynamic Movement Primitives (DMP) for trajectory encoding.',
             'Gaussian Mixture Regression for generalisation across task variations.',
-            'Evaluated on a 7-DoF robot arm at TU München.',
-            'Thesis completed in collaboration with the Chair of Robotics, AI and Real-time Systems.',
+            'Evaluated on a UR robot arm at SDU.',
         ],
         prio: 4,
         icon: '⟳',
@@ -243,7 +232,7 @@ const PortfolioComponent = () => {
                             key={project.name}
                             className="reveal"
                             style={{
-                                transitionDelay: `${i * 0.08}s`,
+                                transitionDelay: `${i * 0.18}s`,
                                 transform: cardScatter[i % cardScatter.length],
                                 transition: 'transform 0.35s ease, opacity 0.6s ease',
                             }}

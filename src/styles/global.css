@@ -63,6 +63,8 @@
     --card-bg:        rgba(255, 255, 252, 0.7);
     --card-border:    rgba(28, 36, 56, 0.1);
 
+    --color-study:    #5d8aa8;
+
     --gray:           110, 120, 140;
     --gray-light:     220, 218, 212;
     --gray-dark:      40, 46, 60;
@@ -99,6 +101,8 @@
 
     --card-bg:        rgba(22, 31, 46, 0.6);
     --card-border:    rgba(94, 130, 160, 0.18);
+
+    --color-study:    #90c4e0;
 
     --gray:           90, 108, 130;
     --gray-light:     50, 62, 80;

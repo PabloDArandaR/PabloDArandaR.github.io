@@ -62,17 +62,10 @@ const ProfileComponent = () => {
 
                     <div className="reveal" style={{ transitionDelay: '0.2s' }}>
                         <p style={bioTextStyle}>
-                            Originally from Saragossa — a medium-sized city in the middle of
-                            the Iberian desert. Moved to Odense, Denmark to complete a Master's
-                            in Industrial Engineering and a second one in Robotics, which I
-                            finished in Munich: exchange semester at Hochschule München,
-                            thesis at the Technische Universität München.
-                        </p>
-                        <p style={bioTextStyle}>
-                            Munich is where I found what I was looking for: a field that
-                            puts AI, mechanics, and mathematics in motion; a partner to
-                            share it all with; and enough quiet time to practice all those
-                            activities that feed the soul but (for now) not the bank account.
+                            Originally from Zaragoza, a spanish mid-sized city, 1 hour away from the Pyrinees, I ended up
+                            studying Industrial Engineering at the University of Zaragoza, then crossing half of
+                            Europe to study as an exchange student and then pursue a Master's in Robotics at SDU in Odense — completed
+                            with an exchange semester at Hochschule München and a thesis at the Technische Universität München.
                         </p>
                     </div>
 

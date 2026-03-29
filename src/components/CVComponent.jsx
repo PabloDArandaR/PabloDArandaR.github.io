@@ -12,9 +12,10 @@ const cv = [
         ],
         startDate: '2015-09-01',
         endDate: '2019-09-01',
-        tags: ['Mechanics', 'Electrical Eng.', 'Control Systems', 'CAD'],
+        tags: ['Mechanics', 'Control Systems', 'Electronics', 'Robotics', 'Electrical Eng.', 'CAD'],
         highlights: [
             'Foundations in mechanical, electrical, and control systems engineering.',
+            'Elective specialisation in robotics and electronics: flexible automation, digital electronics, instrumentation, and power electronics.',
         ],
     },
     {
@@ -23,12 +24,15 @@ const cv = [
         title: "Master's in Industrial Engineering",
         institutions: [
             { name: 'University of Zaragoza', location: 'Zaragoza, Spain' },
+            { name: 'Syddansk Universitet (SDU)', location: 'Odense, Denmark' },
         ],
         startDate: '2019-09-01',
         endDate: '2021-06-01',
-        tags: ['Automation', 'Control Theory', 'Manufacturing', 'PLCs'],
+        tags: ['Advanced Control', 'Power Electronics', 'Electrical Machines', 'Manufacturing', 'Thermal Eng.', 'PLCs'],
         highlights: [
-            'Advanced studies in automation, control theory, and manufacturing systems.',
+            'Advanced studies in control engineering, electronic design, and manufacturing systems.',
+            'Coursework covering advanced control, power electronics, electrical machines, thermal engineering, and integrated manufacturing.',
+            'Exchange year at Syddansk Universitet.',
         ],
     },
     {
@@ -42,25 +46,11 @@ const cv = [
         ],
         startDate: '2021-09-01',
         endDate: '2023-10-01',
-        tags: ['Perception', 'SLAM', 'ROS', 'Motion Planning', 'C++', 'Learning from Demonstration'],
+        tags: ['Perception', 'SLAM', 'Motion Planning', 'C++', 'Learning from Demonstration'],
         highlights: [
             'Specialisation in robot perception, planning, manipulation, and learning from demonstration.',
             'Exchange semester at Hochschule München.',
-            "Master's thesis at TU München on imitation learning for robot manipulation.",
-        ],
-    },
-    {
-        id: 'ITA',
-        type: 'work',
-        title: 'Teaching & Research Assistant',
-        institutions: [
-            { name: 'University of Zaragoza', location: 'Remote' },
-        ],
-        startDate: '2021-09-01',
-        endDate: '2022-06-01',
-        tags: ['Teaching', 'Research', 'Python'],
-        highlights: [
-            "Teaching and research support in engineering courses during the master's programme.",
+            'Master\'s thesis at TU München on emergency stop trajectory generation.',
         ],
     },
     {
@@ -72,10 +62,10 @@ const cv = [
         ],
         startDate: '2021-11-01',
         endDate: '2022-09-01',
-        tags: ['UR Robots', 'Robot Programming', 'C++', 'ROS'],
+        tags: ['UR Robots', 'Robot Programming', 'C++', 'Advanced assembly systems'],
         highlights: [
-            'Development and testing of robotic manipulation programs.',
-            'Hands-on work with industrial robot arms.',
+            'Development and testing of robotic manipulation/assembly of medical devices',
+            'Hands-on work with robot arms',
         ],
     },
     {
@@ -120,7 +110,6 @@ const cv = [
         highlights: [
             'Integration of several robot models/brands into our suite, including, but not only, Franka, Universal Robots, ...',
             'Creating demos of the ImFusion Suite for Ultrasound Robotics applications',
-            'Motion generation, ... modules',
         ],
     },
 ];
@@ -135,8 +124,8 @@ function fmtDate(iso) {
 const CVCard = ({ entry }) => {
     const isStudy  = entry.type === 'study';
     const isPresent = !entry.endDate;
-    const accent   = isStudy ? '#5d8aa8' : 'var(--color-strong)';
-    const accentMuted = isStudy ? 'rgba(93,138,168,0.35)' : 'rgba(var(--color-strong-rgb),0.35)';
+    const accent   = isStudy ? 'var(--color-study)' : 'var(--color-strong)';
+    const accentMuted = isStudy ? 'rgba(var(--color-study-rgb, 93,138,168),0.35)' : 'rgba(var(--color-strong-rgb),0.35)';
     const cardBg   = isStudy
         ? 'rgba(93,138,168,0.07)'
         : 'rgba(var(--color-strong-rgb),0.06)';
@@ -145,7 +134,7 @@ const CVCard = ({ entry }) => {
         <div style={{
             backgroundColor: cardBg,
             border: `1px solid ${isStudy ? 'rgba(93,138,168,0.22)' : 'rgba(var(--color-strong-rgb),0.22)'}`,
-            borderLeft: `4px solid ${isStudy ? '#5d8aa8' : 'var(--color-strong)'}`,
+            borderLeft: `4px solid ${isStudy ? 'var(--color-study)' : 'var(--color-strong)'}`,
             borderRadius: '0 10px 10px 0',
             padding: '1.1rem 1.4rem',
         }}>
@@ -167,8 +156,8 @@ const CVCard = ({ entry }) => {
                 {entry.institutions.map(({ name, location }) => (
                     <div key={name} style={cardMetaStyle}>
                         <span style={{ color: accent }}>{name}</span>
-                        <span style={{ opacity: 0.45, margin: '0 0.4em' }}>·</span>
-                        <span>{location}</span>
+                        <span style={{ opacity: 0.35, margin: '0 0.4em' }}>·</span>
+                        <span style={{ color: 'var(--color-sub-dimm)', opacity: 0.5 }}>{location}</span>
                     </div>
                 ))}
             </div>
@@ -266,7 +255,7 @@ const CVComponent = () => {
                 <div id="education" className="reveal" style={{ ...blockHeadingWrapStyle, marginTop: '3rem', scrollMarginTop: '80px' }}>
                     <div style={blockHeadingStyle}>
                         <div style={{ flex: 1, height: '2px', background: 'linear-gradient(to right, transparent, rgba(93,138,168,0.5))' }} />
-                        <span style={{ color: '#5d8aa8', whiteSpace: 'nowrap' }}>Education</span>
+                        <span style={{ color: 'var(--color-study)', whiteSpace: 'nowrap' }}>Education</span>
                         <div style={{ flex: 1, height: '2px', background: 'linear-gradient(to left, transparent, rgba(93,138,168,0.5))' }} />
                     </div>
                 </div>
@@ -378,7 +367,7 @@ const tagStudyStyle = {
     borderRadius: '20px',
     background: 'rgba(93,138,168,0.12)',
     border: '1px solid rgba(93,138,168,0.28)',
-    color: '#5d8aa8',
+    color: 'var(--color-study)',
     fontWeight: 500,
     letterSpacing: '0.02em',
 };
