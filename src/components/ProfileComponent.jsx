@@ -56,7 +56,7 @@ const ProfileComponent = () => {
                     <div className="reveal" style={{ transitionDelay: '0.1s' }}>
                         <h1 style={nameStyle}>Pablo David Aranda Rodríguez</h1>
                         <p style={subtitleStyle}>
-                            <em>Robotics engineer &amp; frustrated musician</em>
+                            <em>Robotics engineer</em>
                         </p>
                     </div>
 
@@ -93,7 +93,7 @@ const ProfileComponent = () => {
 
                         {/* Currently learning */}
                         <div style={interestBlockStyle}>
-                            <h3 style={blockHeadStyle}>Currently learning</h3>
+                            <h3 style={blockHeadStyle}>learning</h3>
                             <ul style={listStyle}>
                                 {learning.map((item) => (
                                     <li key={item.label} style={listItemStyle}>
@@ -182,13 +182,13 @@ const photoColStyle = {
 
 const photoWrapStyle = {
     position: 'relative',
-    width: '300px',
-    height: '380px',
+    width: '360px',
+    height: '460px',
 };
 
 const photoStyle = {
-    width: '300px',
-    height: '380px',
+    width: '360px',
+    height: '460px',
     borderRadius: '16px',
     objectFit: 'cover',
     objectPosition: 'center top',
@@ -236,7 +236,7 @@ const bioTextStyle = {
 
 const interestsRowStyle = {
     display: 'flex',
-    gap: '2.5rem',
+    gap: '3rem',
     flexWrap: 'wrap',
     marginTop: '1.5rem',
     paddingTop: '1.5rem',
@@ -245,11 +245,11 @@ const interestsRowStyle = {
 
 const interestBlockStyle = {
     flex: 1,
-    minWidth: '180px',
+    minWidth: '220px',
 };
 
 const blockHeadStyle = {
-    fontSize: 'var(--text-xs)',
+    fontSize: '0.95rem',
     fontWeight: 700,
     textTransform: 'uppercase',
     letterSpacing: '0.1em',
@@ -270,7 +270,7 @@ const listItemStyle = {
     display: 'flex',
     alignItems: 'center',
     gap: '0.6em',
-    fontSize: 'var(--text-sm)',
+    fontSize: '0.9rem',
     color: 'var(--color-sub)',
 };
 
@@ -297,7 +297,7 @@ const bookLabelStyle = {
 };
 
 const bookStyle = {
-    fontSize: 'var(--text-sm)',
+    fontSize: '0.9rem',
     color: 'var(--color-sub)',
     margin: 0,
     lineHeight: 1.5,
