@@ -73,7 +73,7 @@ const ProjectModal = ({ project, onClose }) => {
 
     return (
         <div style={backdropStyle} onClick={onClose}>
-            <div style={modalStyle} onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+            <div className="project-modal" style={modalStyle} onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
                 {/* Close */}
                 <button
                     style={closeButtonStyle}
@@ -195,8 +195,19 @@ const cardScatter = [
 const PortfolioComponent = () => {
     const sectionRef = useRef(null);
     const [activeProject, setActiveProject] = useState(null);
+    const [gridCols, setGridCols] = useState(portfolioData.length);
 
     const sorted = [...portfolioData].sort((a, b) => a.prio - b.prio);
+
+    useEffect(() => {
+        const update = () => {
+            const w = window.innerWidth;
+            setGridCols(w < 640 ? 1 : w < 1024 ? 2 : sorted.length);
+        };
+        update();
+        window.addEventListener('resize', update);
+        return () => window.removeEventListener('resize', update);
+    }, [sorted.length]);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -226,18 +237,18 @@ const PortfolioComponent = () => {
                     </h2>
                 </div>
 
-                <div style={{ ...gridStyle, gridTemplateColumns: `repeat(${sorted.length}, 1fr)` }}>
+                <div style={{ ...gridStyle, gridTemplateColumns: `repeat(${gridCols}, 1fr)` }}>
                     {sorted.map((project, i) => (
                         <div
                             key={project.name}
                             className="reveal"
                             style={{
                                 transitionDelay: `${i * 0.18}s`,
-                                transform: cardScatter[i % cardScatter.length],
+                                transform: gridCols === 1 ? 'none' : cardScatter[i % cardScatter.length],
                                 transition: 'transform 0.35s ease, opacity 0.6s ease',
                             }}
-                            onMouseEnter={(e) => { e.currentTarget.style.transform = 'rotate(0deg) translateY(-4px)'; }}
-                            onMouseLeave={(e) => { e.currentTarget.style.transform = cardScatter[i % cardScatter.length]; }}
+                            onMouseEnter={(e) => { if (gridCols > 1) e.currentTarget.style.transform = 'rotate(0deg) translateY(-4px)'; }}
+                            onMouseLeave={(e) => { if (gridCols > 1) e.currentTarget.style.transform = cardScatter[i % cardScatter.length]; }}
                         >
                             <ProjectCard project={project} onClick={() => setActiveProject(project)} />
                         </div>

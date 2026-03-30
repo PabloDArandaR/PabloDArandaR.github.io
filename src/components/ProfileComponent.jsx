@@ -26,6 +26,14 @@ const reading = {
 // ── Component ─────────────────────────────────────────────────────
 const ProfileComponent = () => {
     const sectionRef = useRef(null);
+    const [isMobile, setIsMobile] = React.useState(false);
+
+    useEffect(() => {
+        const check = () => setIsMobile(window.innerWidth < 640);
+        check();
+        window.addEventListener('resize', check);
+        return () => window.removeEventListener('resize', check);
+    }, []);
 
     // Scroll-reveal
     useEffect(() => {
@@ -50,7 +58,7 @@ const ProfileComponent = () => {
             {/* Dot-grid overlay */}
             <div style={dotGridStyle} aria-hidden="true" />
 
-            <div style={innerStyle}>
+            <div style={{ ...innerStyle, flexDirection: isMobile ? 'column-reverse' : 'row', gap: isMobile ? '2rem' : '4rem' }}>
                 {/* ── Bio ───────────────────────────── */}
                 <div style={bioColStyle}>
                     <div className="reveal" style={{ transitionDelay: '0.1s' }}>
@@ -121,12 +129,12 @@ const ProfileComponent = () => {
                 </div>
 
                 {/* ── Photo ─────────────────────────── */}
-                <div className="reveal" style={photoColStyle}>
-                    <div style={photoWrapStyle}>
+                <div className="reveal" style={{ ...photoColStyle, width: isMobile ? '100%' : 'auto', alignItems: 'center' }}>
+                    <div style={isMobile ? { ...photoWrapStyle, width: '100%', maxWidth: '320px', height: 'auto', margin: '0 auto' } : photoWrapStyle}>
                         <img
                             src="/profile.JPEG"
                             alt="Pablo David Aranda Rodríguez"
-                            style={photoStyle}
+                            style={isMobile ? { ...photoStyle, width: '100%', height: 'auto', maxWidth: '320px' } : photoStyle}
                         />
                         {/* Decorative orbit ring */}
                         <div style={orbitRingStyle} aria-hidden="true" />

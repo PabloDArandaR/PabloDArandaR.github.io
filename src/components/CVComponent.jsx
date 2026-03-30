@@ -131,7 +131,7 @@ const CVCard = ({ entry }) => {
         : 'rgba(var(--color-strong-rgb),0.06)';
 
     return (
-        <div style={{
+        <div className="cv-card" style={{
             backgroundColor: cardBg,
             border: `1px solid ${isStudy ? 'rgba(93,138,168,0.22)' : 'rgba(var(--color-strong-rgb),0.22)'}`,
             borderLeft: `4px solid ${isStudy ? 'var(--color-study)' : 'var(--color-strong)'}`,

@@ -298,3 +298,14 @@ hr {
     h1 { font-size: 2em; }
     h2 { font-size: 1.6em; }
 }
+
+@media (max-width: 640px) {
+    /* Tighten section vertical padding on mobile */
+    section { padding-top: 2.5rem !important; padding-bottom: 2.5rem !important; }
+
+    /* CV cards: reduce horizontal padding so text breathes on narrow screens */
+    .cv-card { padding: 0.85rem 1rem !important; }
+
+    /* Modal: reduce padding so it doesn't eat the screen on small devices */
+    .project-modal { padding: 1.5rem !important; }
+}
