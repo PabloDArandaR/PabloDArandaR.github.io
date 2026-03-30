@@ -48,7 +48,7 @@ const cv = [
         endDate: '2023-10-01',
         tags: ['Perception', 'SLAM', 'Motion Planning', 'C++', 'Learning from Demonstration'],
         highlights: [
-            'Specialisation in robot perception, planning, manipulation, and learning from demonstration.',
+            'Focus in robot perception, planning, control, and manipulation.',
             'Exchange semester at Hochschule München.',
             'Master\'s thesis at TU München on emergency stop trajectory generation.',
         ],
