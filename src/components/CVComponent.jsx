@@ -293,7 +293,8 @@ const innerStyle = {
 
 const blockHeadingWrapStyle = {
     marginBottom: '1rem',
-    width: '580px',
+    width: '100%',
+    maxWidth: '580px',
 };
 
 const blockHeadingStyle = {
@@ -306,7 +307,8 @@ const blockHeadingStyle = {
 };
 
 const rowWrapStyle = {
-    width: '780px',
+    width: '100%',
+    maxWidth: '780px',
     paddingBottom: '1.25rem',
 };
 
